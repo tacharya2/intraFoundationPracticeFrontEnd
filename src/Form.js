@@ -9,6 +9,20 @@ const [lastName, setLastName] = useState('');
 const [email, setEmail] = useState('');
 const [phone, setPhone] = useState('');
 
+//Address fields
+  const[street, setStreet] = useState('');
+  const[city, setCity] = useState('');
+  const[state, setState] = useState('');
+  const[zip, setZip] = useState('');
+
+
+  // Function to reset address fields
+  const resetAddressFields = () => {
+    setStreet('');
+    setCity('');
+    setState('');
+    setZip('');
+  };
     const handleFirstNameChange = (e) => {
     setFirstName(e.target.value.trim());
     };
@@ -25,6 +39,24 @@ const [phone, setPhone] = useState('');
     const handlePhoneChange = (e) => {
         setPhone(e.target.value.trim());
       };
+
+      const handleStreetChange = (e) => {
+        setStreet(e.target.value.trim());
+      };
+
+      const handleCityChange = (e) => {
+        setCity(e.target.value.trim());
+      };
+
+
+      const handleStateChange = (e) => {
+        setState(e.target.value.trim());
+      };
+
+      const handleZipChange = (e) => {
+      setZip(e.target.value.trim());
+      };
+
 const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -34,7 +66,13 @@ const handleSubmit = (e) => {
     middleInitial: middleInitial,
     lastName: lastName,
     email:  email,
-    phone: phone
+    phone: phone,
+    address: {
+        street: street,
+        city: city,
+        state: state,
+        zip: zip
+        }
     };
 
     console.log(dataToSend);
@@ -46,6 +84,7 @@ const handleSubmit = (e) => {
         setLastName('');
         setEmail('');
         setPhone('');
+        resetAddressFields();
         })
        .catch(error => {
         console.log('Error: ', error);
@@ -75,9 +114,27 @@ return(
                 <label> Phone Number </label>
                 <input type="Text" value={phone} onChange={handlePhoneChange}/>
             </div>
+            <div>
+              <label>Street</label>
+              <input type="text" value={street} onChange={handleStreetChange} />
+            </div>
+            <div>
+              <label>City</label>
+              <input type="text" value={city} onChange={handleCityChange} />
+            </div>
+            <div>
+              <label>State</label>
+              <input type="text" value={state} onChange={handleStateChange} />
+            </div>
+            <div>
+              <label>Zip</label>
+              <input type="text" value={zip} onChange={handleZipChange} />
+            </div>
+
             <button type="submit">Submit</button>
         </form>
     </div>
 );
 }
+
 export default Form;
