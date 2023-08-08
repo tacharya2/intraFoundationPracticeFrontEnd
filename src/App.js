@@ -6,7 +6,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <h1>Intra-National Support Foundation of America</h1>
+     <h1 className = "center-heading">Intra-National Support Foundation of America</h1>
        <Form/>
     </div>
   );

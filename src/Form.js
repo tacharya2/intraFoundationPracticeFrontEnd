@@ -15,7 +15,10 @@ const [phone, setPhone] = useState('');
   const[state, setState] = useState('');
   const[zip, setZip] = useState('');
 
+  const [password, setPassword] = useState('');
+  const [rePassword, setRePassword] = useState('');
 
+  const [message, setMessage] = useState('');
   // Function to reset address fields
   const resetAddressFields = () => {
     setStreet('');
@@ -56,10 +59,18 @@ const [phone, setPhone] = useState('');
       const handleZipChange = (e) => {
       setZip(e.target.value.trim());
       };
+        const handlePasswordChange = (e) => {
+          setPassword(e.target.value);
+        };
+        const handleRePasswordChange = (e) => {
+          setRePassword(e.target.value);
+        };
 
 const handleSubmit = (e) => {
     e.preventDefault();
-
+if(password !== rePassword){
+    alert('Passwords do not match');
+}
     //prepare the data to be sent to the server.
     const dataToSend    = {
     firstName: firstName,
@@ -72,67 +83,84 @@ const handleSubmit = (e) => {
         city: city,
         state: state,
         zip: zip
-        }
+        },
+    password: password,
+    rePassword: rePassword
     };
 
     console.log(dataToSend);
     axios.post('http://localhost:8085/api/messages', dataToSend)
        .then((response) => {
         console.log(response.data);
+        setMessage(`Hello ${response.data.firstName} ${response.data.lastName}! Thank you for registering with us. Your username is ${response.data.email}`);
         setFirstName('');
         setMiddleInitial('');
         setLastName('');
         setEmail('');
         setPhone('');
         resetAddressFields();
+        setPassword('');
+        setRePassword('');
         })
        .catch(error => {
         console.log('Error: ', error);
     });
 };
 return(
-    <div>
-        <h2>Contact Form</h2>
+    <div className="container">
+     <div className="form-wrapper">
+        <h2>Registration Form</h2>
         <form onSubmit={handleSubmit}>
-             <div>
+             <div className="form-element">
                 <label> First Name </label>
-                <input type="Text" value={firstName} onChange={handleFirstNameChange}/>
+                <input required type="Text" placeholder="John" value={firstName} onChange={handleFirstNameChange} />
             </div>
-             <div>
+             <div className="form-element">
                 <label> Middle Initial</label>
-                <input type="Text" value={middleInitial} onChange={handleMiddleInitial}/>
+                <input type="Text" placeholder="B" value={middleInitial} onChange={handleMiddleInitial}/>
             </div>
-            <div>
+            <div className="form-element">
                 <label> Last Name </label>
-                <input type="Text" value={lastName} onChange={handleLastNameChange}/>
+                <input required type="Text" placeholder="Doe" value={lastName} onChange={handleLastNameChange}/>
             </div>
-            <div>
+            <div className="form-element">
                 <label> Email </label>
-                <input type="Text" value={email} onChange={handleEmailChange}/>
+                <input required type="email" placeholder="username" value={email} onChange={handleEmailChange}/>
             </div>
-            <div>
+            <div className="form-element">
                 <label> Phone Number </label>
-                <input type="Text" value={phone} onChange={handlePhoneChange}/>
+                <input required type="Text" placeholder="123-456-7890" value={phone} onChange={handlePhoneChange}/>
             </div>
-            <div>
+            <div className="form-element">
               <label>Street</label>
-              <input type="text" value={street} onChange={handleStreetChange} />
+              <input required type="text" placeholder="123 Main Street" value={street} onChange={handleStreetChange} />
             </div>
-            <div>
+            <div className="form-element">
               <label>City</label>
-              <input type="text" value={city} onChange={handleCityChange} />
+              <input required type="text" placeholder="San Antoine" value={city} onChange={handleCityChange} />
             </div>
-            <div>
+            <div className="form-element">
               <label>State</label>
-              <input type="text" value={state} onChange={handleStateChange} />
+              <input required type="text" placeholder="TX" value={state} onChange={handleStateChange} />
             </div>
-            <div>
+            <div className="form-element">
               <label>Zip</label>
-              <input type="text" value={zip} onChange={handleZipChange} />
+              <input required type="text" placeholder="30084" value={zip} onChange={handleZipChange} />
+            </div>
+            <div className="form-element">
+              <label>Password</label>
+              <input required type="password" placeholder="8 characters long" value={password} onChange={handlePasswordChange}/>
+            </div>
+            <div className="form-element">
+              <label>Re-enter Password</label>
+              <input required type="password" placeholder="must match with above" value={rePassword} onChange={handleRePasswordChange}/>
             </div>
 
-            <button type="submit">Submit</button>
+            <button type="submit" className="submit-button" >Register with Intra Foundation </button>
+            <p className="message">{message}</p>
+            <p className="log-in">Please <a href="/login">Login</a> to access you account</p>
         </form>
+        </div>
     </div>
 );
 }
