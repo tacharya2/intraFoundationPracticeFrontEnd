@@ -89,7 +89,7 @@ if(password !== rePassword){
     };
 
     console.log(dataToSend);
-    axios.post('http://localhost:8085/api/messages', dataToSend)
+    axios.post('http://localhost:8085/api/messages/create', dataToSend)
        .then((response) => {
         console.log(response.data);
         setMessage(`Hello ${response.data.firstName} ${response.data.lastName}! Thank you for registering with us. Your username is ${response.data.email}`);

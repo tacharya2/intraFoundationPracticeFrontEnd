@@ -23,9 +23,10 @@ function Login(props) {
     };
 
     axios
-      .post('http://localhost:8085/api/login', userData)
+      .post('http://localhost:8085/api/login/authenticate', userData)
       .then((response) => {
         // Successful login logic (e.g., redirect to dashboard)
+        console.log(response.data);
         props.history.push('/form');
       })
       .catch((error) => {
